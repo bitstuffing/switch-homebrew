@@ -31,18 +31,18 @@ include $(DEVKITPRO)/libnx/switch_rules
 #     - <libnx folder>/default_icon.jpg
 #---------------------------------------------------------------------------------
 
-APP_TITLE := homebrew
+APP_TITLE := practicator
 APP_AUTHOR := bit
 APP_VERSION := 0.1
 
 # ICON := Icon.jpg
-TARGET		:=	AISFLOW
+TARGET		:=	practicator
 BUILD		:=	Build
 SOURCES		:=	Source
 DATA		:=	Bin
 INCLUDES	:=	Include
 EXEFS_SRC	:=	exefs_src
-# ROMFS		:=	RomFs
+PROGRAM_STATICS		:=	Statics
 
 #---------------------------------------------------------------------------------
 # options for code generation
@@ -142,8 +142,8 @@ ifneq ($(APP_TITLEID),)
 	export NACPFLAGS += --titleid=$(APP_TITLEID)
 endif
 
-ifneq ($(ROMFS),)
-	export NROFLAGS += --romfsdir=$(CURDIR)/$(ROMFS)
+ifneq ($(PROGRAM_STATICS),)
+	export NROFLAGS += --romfsdir=$(CURDIR)/$(PROGRAM_STATICS)
 endif
 
 .PHONY: $(BUILD) clean all

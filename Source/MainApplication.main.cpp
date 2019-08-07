@@ -1,8 +1,7 @@
 #include <MainApplication.hpp>
 
 // Main entrypoint, call the app here
-int main()
-{
+int main(){
     // Create the application
     MainApplication *amain = new MainApplication();
     // Show it. This function will finalize when the application's "Close()" function is called.

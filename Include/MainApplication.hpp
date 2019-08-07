@@ -1,23 +1,20 @@
-
-
 #pragma once
-
-// Include Plutonium
 #include <pu/Plutonium>
 
-// Define your main layout as a class inheriting from pu::Layout
-class Layout1 : public pu::ui::Layout
-{
+//layout to be included in MainApplication
+class Layout1 : public pu::ui::Layout{
     public:
         Layout1();
     private:
         // An easy way to keep objects is to have them as private pointer members
-        pu::ui::elm::TextBlock *helloText;
+        pu::ui::elm::TextBlock *console;
+        pu::ui::elm::Menu *optionMenu;
+        pu::ui::elm::MenuItem *firstOption;
+        pu::ui::elm::MenuItem *secondOption;
 };
 
-// Define your application as a class too
-class MainApplication : public pu::ui::Application
-{
+//application class definition
+class MainApplication : public pu::ui::Application{
     public:
         MainApplication();
     private:

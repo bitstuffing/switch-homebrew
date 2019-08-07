@@ -1,21 +1,53 @@
 #include <MainApplication.hpp>
+#include <settings/settings.hpp>
+#include <cstdio>
+#include <string>
+#include <curl/curl.h>
+#include <malloc.h>    // for mallinfo()
 
 // Implement all the layout/application functions here
 
+using namespace settings; //GetString
+
 Layout1::Layout1(){
-    // Create the textblock with the text we want
-    this->helloText = new pu::ui::elm::TextBlock(300, 300, "AISFLOW - PRACTICA!!! (pulsa X para continuar)");
-    // Add the textblock to the layout's element container. IMPORTANT! this MUST be done, having them as members is not enough (just a simple way to keep them)
-    this->Add(this->helloText);
+
+    try{
+
+        this->console = new pu::ui::elm::TextBlock(0, 0, "(AISFLOW push X button)\tInstancing settings...");
+        this->Add(this->console);
+
+        //init settings
+        Settings pSettings;
+
+        this->optionMenu = new pu::ui::elm::Menu(0, 160, 1280,pu::ui::Color::FromHex("#EEEEEE") ,60,3);
+        this->console = new pu::ui::elm::TextBlock(0, 30, "instancing menu item...");
+        this->firstOption = new pu::ui::elm::MenuItem("hola, soy el primer elemento");
+        this->Add(this->console);
+        this->console = new pu::ui::elm::TextBlock(0, 60, "adding menu item to menu");
+        this->optionMenu->AddItem(this->firstOption);
+
+        char string[200];
+        sprintf(string,"Memory: %d %d %d\n", mallinfo().arena, mallinfo().uordblks, mallinfo().fordblks);
+
+        this->secondOption = new pu::ui::elm::MenuItem(string);
+
+        this->optionMenu->AddItem(this->secondOption);
+        this->Add(this->console);
+
+        this->Add(this->optionMenu);
+
+    }catch(std::exception& e){
+      this->console = new pu::ui::elm::TextBlock(300, 300, e.what());
+      this->Add(this->console);
+    }
+
 }
 
 MainApplication::MainApplication(){
-    // Create the layout (calling the constructor above)
     this->layout1 = new Layout1();
-    // Load the layout. In applications layouts are loaded, not added into a container (you don't select a added layout, just load it from this function)
+
     this->LoadLayout(this->layout1);
-    // Set a function when input is caught. This input handling will be the first one to be handled (before Layout or any Elements)
-    // Using a lambda function here to simplify things
+
     this->SetOnInput([&](u64 Down, u64 Up, u64 Held, bool Touch){
         if(Down & KEY_X){ // If X is pressed, start with our dialog questions!
             int opt = this->CreateShowDialog("Pregunta", "¿Has practicado?", { "¡Sí!", "No...", "Cancelar" }, true); // (using latest option as cancel option)
