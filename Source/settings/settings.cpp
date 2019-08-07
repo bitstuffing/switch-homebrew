@@ -1,25 +1,20 @@
-#include <settings/Settings.hpp>
-//#include <fs/fs_Explorer.hpp>
+#include <settings/settings.hpp>
 
 extern settings::Settings psettings;
 
 namespace settings{
 
-    std::string GetString(unsigned int){
-        return "ok";//MainDictionary.Strings[Index].get<std::string>();
+    std::string GetString(unsigned int index){
+        return "ok";//MainDictionary.Strings[index].get<std::string>(); //TODO
     }
 
-    std::string GetError(unsigned int){
-        return "ko";//Errors.Strings[Index].get<std::string>();
+    std::string GetError(unsigned int index){
+        return "ko";//Errors.Strings[index].get<std::string>(); //TODO
     }
 
-    std::string Settings::PathForResource(std::string Path){
-        std::string outres = "romfs:" + Path;
-        if(!this->Statics.empty())
-        {
-            std::string tmpres = this->Statics + "/" + Path;
-            if(fs::IsFile(tmpres)) outres = tmpres;
-        }
+    std::string Settings::PathForResource(std::string path){
+        std::string outres = "romfs:" + path;
+        //TODO
         return outres;
     }
 
@@ -28,7 +23,8 @@ namespace settings{
     }
 
     bool Exists(){
-        return fs::IsFile(SettingsFile);
+        //TODO
+        return true;
     }
 
     void Initialize(){

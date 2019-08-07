@@ -25,8 +25,6 @@ namespace settings{
 
     };
 
-
-
     static const std::string SettingsFile = "sdmc:/" + Practicator + "/settings.json";
 
     Settings ProcessSettings();

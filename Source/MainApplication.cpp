@@ -1,33 +1,36 @@
 #include <MainApplication.hpp>
 #include <settings/settings.hpp>
-#include <cstdio>
-#include <string>
-#include <curl/curl.h>
+#include <network/network.hpp>
+
 #include <malloc.h>    // for mallinfo()
+#include <cstdio> //sprintf
+#include <string> //std::string
 
-// Implement all the layout/application functions here
-
-using namespace settings; //GetString
+//using namespace settings; //GetString and pSettings
+//using namespace network; //RetrieveContent
 
 Layout1::Layout1(){
 
     try{
 
-        this->console = new pu::ui::elm::TextBlock(0, 0, "(AISFLOW push X button)\tInstancing settings...");
-        this->Add(this->console);
-
         //init settings
-        Settings pSettings;
+        settings::Settings pSettings;
+
+        this->console = new pu::ui::elm::TextBlock(0, 0, "(AISFLOW push X button). Instancing settings...");
+        this->Add(this->console);
 
         this->optionMenu = new pu::ui::elm::Menu(0, 160, 1280,pu::ui::Color::FromHex("#EEEEEE") ,60,3);
         this->console = new pu::ui::elm::TextBlock(0, 30, "instancing menu item...");
-        this->firstOption = new pu::ui::elm::MenuItem("hola, soy el primer elemento");
+
+        std::string content = network::RetrieveContent("http://hora.roa.es:13/","application/json");
+
+        this->firstOption = new pu::ui::elm::MenuItem(content);
         this->Add(this->console);
-        this->console = new pu::ui::elm::TextBlock(0, 60, "adding menu item to menu");
+        this->console = new pu::ui::elm::TextBlock(0, 60, settings::GetString(1));
         this->optionMenu->AddItem(this->firstOption);
 
         char string[200];
-        sprintf(string,"Memory: %d %d %d\n", mallinfo().arena, mallinfo().uordblks, mallinfo().fordblks);
+        sprintf(string,"Memory: %d %d %d", mallinfo().arena, mallinfo().uordblks, mallinfo().fordblks);
 
         this->secondOption = new pu::ui::elm::MenuItem(string);
 
